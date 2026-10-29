@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact me about web development, projects, and professional opportunities.">
+  <meta name="theme-color" content="#17365d">
+  <title>Contact | Your Name — Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <a class="logo" href="index.html">My Portfolio</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="page-intro" aria-labelledby="page-title">
+      <p class="eyebrow">LET'S CONNECT</p>
+      <h1 id="page-title">Contact Me</h1>
+      <p>Have a question or an opportunity? Send me a message.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="form-title">
+      <h2 id="form-title">Send a Message</h2>
+      <p id="required-note">All fields are required.</p>
+
+      <form id="contact-form" aria-describedby="required-note">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input id="name" type="text" name="name" autocomplete="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Your Email</label>
+          <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button id="send-button" type="submit">Send Message</button>
+        <p id="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+      </form>
+      <p class="form-note">Your message will be sent by EmailJS. Please do not include sensitive personal information.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span data-current-year>2026</span> Your Name. All rights reserved.</p>
+  </footer>
+
+  <!-- Load EmailJS once, after the form exists in the document. -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (() => {
+      const form = document.getElementById("contact-form");
+      const status = document.getElementById("form-status");
+      const sendButton = document.getElementById("send-button");
+
+      // EmailJS Public Key: this key is designed for browser-side use.
+      emailjs.init({
+        publicKey: "ExwqVKNBI8T4K7la0"
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        status.textContent = "Sending message...";
+        sendButton.disabled = true;
+
+        try {
+          await emailjs.sendForm(
+            "service_3f422nk",
+            "template_bb3vszj",
+            form
+          );
+
+          status.textContent = "Message sent successfully!";
+          form.reset();
+        } catch (error) {
+          console.error("EmailJS error:", error);
+          status.textContent = "Message could not be sent. Please try again.";
+        } finally {
+          sendButton.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
